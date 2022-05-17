@@ -15,6 +15,8 @@ import type { BoilerplateCardConfig } from './types';
 import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
+//import { HassEntity } from "home-assistant-js-websocket";
+
 
 /* eslint no-console: 0 */
 console.info(
@@ -26,14 +28,13 @@ console.info(
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
-  type: 'boilerplate-card',
-  name: 'Boilerplate Card',
+  type: 'crowdsourcerer-card',
+  name: 'Crowdsourcerer Card',
   description: 'A template custom card for you to create something awesome',
 });
 
-// TODO Name your custom element
-@customElement('boilerplate-card')
-export class BoilerplateCard extends LitElement {
+@customElement('crowdsourcerer-card')
+export class CrowdsourcererCard extends LitElement {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     await import('./editor');
     return document.createElement('boilerplate-card-editor');
@@ -46,6 +47,10 @@ export class BoilerplateCard extends LitElement {
   // TODO Add any properities that should cause your element to re-render here
   // https://lit.dev/docs/components/properties/
   @property({ attribute: false }) public hass!: HomeAssistant;
+
+  //@property() public stateObj!: HassEntity;
+
+  @property({ type: Boolean }) public inDialog = false;
 
   @state() private config!: BoilerplateCardConfig;
 
@@ -61,7 +66,8 @@ export class BoilerplateCard extends LitElement {
     }
 
     this.config = {
-      name: 'Boilerplate',
+      name: 'Crowdsourcerer Data Collector',
+      //entity: 'sensor.home',
       ...config,
     };
   }
@@ -96,7 +102,12 @@ export class BoilerplateCard extends LitElement {
         })}
         tabindex="0"
         .label=${`Boilerplate: ${this.config.entity || 'No Entity Defined'}`}
-      ></ha-card>
+      >
+        
+      <p>test!</p>
+      <p>${this.config.entity}</p>
+      
+      </ha-card>
     `;
   }
 
