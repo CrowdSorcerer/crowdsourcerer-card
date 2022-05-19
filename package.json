@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate-card",
+  "name": "crowdsourcerer-card",
   "version": "1.4.1",
-  "description": "Lovelace boilerplate-card",
+  "description": "Lovelace card for the Crowdsourcerer integration",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -10,9 +10,9 @@
     "lovelace",
     "custom-cards"
   ],
-  "module": "boilerplate-card.js",
-  "repository": "git@github.com:custom_cards/boilerplate-card.git",
-  "author": "Ian Richardson <iantrich@gmail.com>",
+  "module": "crowdsourcerer-card.js",
+  "repository": "git@github.com:CrowdSorcerer/custom-card.git",
+  "author": "Diogo Monteiro <diogo.mo.monteiro@ua.pt>",
   "license": "MIT",
   "dependencies": {
     "@lit-labs/scoped-registry-mixin": "^1.0.0",

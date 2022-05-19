@@ -20,7 +20,7 @@ import { localize } from './localize/localize';
 
 /* eslint no-console: 0 */
 console.info(
-  `%c  BOILERPLATE-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
+  `%c  CROWDSOURCERER-CARD \n%c  ${localize('common.version')} ${CARD_VERSION}    `,
   'color: orange; font-weight: bold; background: black',
   'color: white; font-weight: bold; background: dimgray',
 );
@@ -30,7 +30,7 @@ console.info(
 (window as any).customCards.push({
   type: 'crowdsourcerer-card',
   name: 'Crowdsourcerer Card',
-  description: 'A template custom card for you to create something awesome',
+  description: 'Custom card for Crowdsourcerer integration that enables finer control over data collection',
 });
 
 @customElement('crowdsourcerer-card')
@@ -52,7 +52,10 @@ export class CrowdsourcererCard extends LitElement {
 
   @property({ type: Boolean }) public inDialog = false;
 
+  @property({ type: String }) public route = "main";
+
   @state() private config!: BoilerplateCardConfig;
+
 
   // https://lit.dev/docs/components/properties/#accessors-custom
   public setConfig(config: BoilerplateCardConfig): void {
@@ -92,23 +95,63 @@ export class CrowdsourcererCard extends LitElement {
       return this._showError(localize('common.show_error'));
     }
 
+    //return html`
+    //  <ha-card
+    //    .header=${this.config.name}
+    //    @action=${this._handleAction}
+    //    .actionHandler=${actionHandler({
+    //      hasHold: hasAction(this.config.hold_action),
+    //      hasDoubleClick: hasAction(this.config.double_tap_action),
+    //    })}
+    //    tabindex="0"
+    //    .label=${`Boilerplate: ${this.config.entity || 'No Entity Defined'}`}
+    //  >
+    //  </ha-card>
+    //`;
+
     return html`
       <ha-card
         .header=${this.config.name}
-        @action=${this._handleAction}
-        .actionHandler=${actionHandler({
-          hasHold: hasAction(this.config.hold_action),
-          hasDoubleClick: hasAction(this.config.double_tap_action),
-        })}
-        tabindex="0"
-        .label=${`Boilerplate: ${this.config.entity || 'No Entity Defined'}`}
       >
-        
-      <p>test!</p>
-      <p>${this.config.entity}</p>
-      
+        <div class="card-content">
+          <p>${this.config.entity}</p>
+          <div>${this.getPage()}</div>
+        </div>
       </ha-card>
     `;
+  }
+
+
+  private getPage(): TemplateResult {
+
+    switch (this.route) {
+      case "main":
+        return html`
+          <div>
+            <h2>Main screen</h2>
+            <a class="nav-btn" @click=${() => this.setRoute("info")}>Info</a>
+          </div>
+        `
+      case "info":
+        return html`
+          <div>
+            <h2>Info screen</h2>
+            <a class="nav-btn" @click=${() => this.setRoute("main")}>Back</a>
+          </div>
+        `
+      default:
+        return html`
+          <div>
+            <h2>Something went wrong...</h2>
+            <a class="nav-btn" @click=${() => this.setRoute("main")}>Return to main screen</a>
+          </div>
+        `
+    }
+  }
+
+
+  private setRoute(route: string): void {
+    this.route = route;
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
@@ -134,6 +177,16 @@ export class CrowdsourcererCard extends LitElement {
 
   // https://lit.dev/docs/components/styles/
   static get styles(): CSSResultGroup {
-    return css``;
+    return css`
+      .nav-btn {
+        padding: 8px 12px;
+        border: 1px solid var(--primary-text-color);
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .nav-btn:hover {
+        background-color: var(--primary-color);
+      }
+    `;
   }
 }
