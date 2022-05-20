@@ -127,16 +127,75 @@ export class CrowdsourcererCard extends LitElement {
     switch (this.route) {
       case "main":
         return html`
-          <div>
+          <div class="view-content">
             <h2>Main screen</h2>
-            <a class="nav-btn" @click=${() => this.setRoute("info")}>Info</a>
+
+              <h3>Data collection is [enabled/disabled]</h3>
+
+              <div class="stat-list">
+                <p class="stat-label">Size of last sent package:</p>
+                <p class="stat-value">OOOO</p>
+
+                <p class="stat-label">Total size of sent packages:</p>
+                <p class="stat-value">OOOO</p>
+
+                <br style="margin-bottom: 16px;"/>
+
+                <p class="stat-label">Date of last sent package:</p>
+                <p class="stat-value">YYYY/MM/DD</p>
+
+                <p class="stat-label">Sending data since:</p>
+                <p class="stat-value">YYYY/MM/DD</p>
+              </div>
+
+              <div class="nav-btn-list">
+                <a class="nav-btn" @click=${() => this.setRoute("collection")}>Collection Settings</a>
+                <a class="nav-btn" @click=${() => this.setRoute("data")}>Manage Data</a>
+                <a class="nav-btn" @click=${() => this.setRoute("terms")}>Terms and Conditions</a>
+              </div>
           </div>
         `
-      case "info":
+      case "data":
         return html`
-          <div>
-            <h2>Info screen</h2>
-            <a class="nav-btn" @click=${() => this.setRoute("main")}>Back</a>
+          <div class="view-content">
+            <h2>Manage Data</h2>
+
+            <h3>Your unique ID is:</h3>
+            <h2>OOOO-OOOO-OOOO-OOOO</h2>
+            <h3>Keep this ID in a safe place, if the Crowdsourcerer integration is uninstalled it is the only way we can delete your data if requested</h3>
+
+            <div class="nav-btn-list">
+              <a class="nav-btn" @click=${() => this.setRoute("main")}>Back</a>
+              <a class="nav-btn" @click=${() => this.setRoute("delete")}>Delete Data</a>
+            </div>
+          </div>
+        `
+      case "delete":
+        return html`
+          <div class="view-content">
+            <h2>Delete Data</h2>
+
+            <h3>You may request to have all previously sent data deleted from our storage.</h3>
+            <h3>Proceed?</h3>
+
+            <div class="nav-btn-list">
+              <a class="nav-btn delete-data-btn" >Yes, delete my data</a>
+              <a class="nav-btn" @click=${() => this.setRoute("data")}>Cancel</a>
+            </div>
+          </div>
+        `
+      case "terms":
+        return html`
+          <div class="view-content">
+            <h2>Terms and Conditions</h2>
+
+            <h3>By using the Crowdsourcerer integration and allowing data collection, you consent to the following terms and conditions:</h3>
+
+            <p>...</p>
+
+            <div class="nav-btn-list">
+              <a class="nav-btn" @click=${() => this.setRoute("main")}>Back</a>
+            </div>
           </div>
         `
       default:
@@ -178,14 +237,56 @@ export class CrowdsourcererCard extends LitElement {
   // https://lit.dev/docs/components/styles/
   static get styles(): CSSResultGroup {
     return css`
+      .view-content {
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .stat-list {
+        padding: 16px;
+      }
+
+      .stat-list > .stat-label {
+        display: inline-block;
+        width: 69%;
+        text-align: left;
+        margin: 0;
+      }
+
+      .stat-list > .stat-value {
+        display: inline-block;
+        width: 29%;
+        text-align: right;
+        margin: 0;
+      }
+
+      .nav-btn-list {
+        width: 60%;
+        margin: auto;
+      }
+
       .nav-btn {
         padding: 8px 12px;
         border: 1px solid var(--primary-text-color);
         border-radius: 4px;
         cursor: pointer;
+        text-align: center;
+        display: inline-block;
       }
+
+      .nav-btn-list > .nav-btn {
+        width: 100%;
+        margin-bottom: 8px;
+      }
+
       .nav-btn:hover {
         background-color: var(--primary-color);
+      }
+
+      .nav-btn.delete-data-btn:hover {
+        background-color: red;
       }
     `;
   }

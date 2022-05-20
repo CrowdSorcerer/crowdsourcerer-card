@@ -1,1 +1,1 @@
-export{C as CrowdsourcererCard}from"./crowdsourcerer-card-54146b98.js";
+export{C as CrowdsourcererCard}from"./crowdsourcerer-card-7320339f.js";
