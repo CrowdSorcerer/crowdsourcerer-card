@@ -4,7 +4,7 @@ import { customElement, property, state } from 'lit/decorators';
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
-  hasAction,
+  //hasAction,
   ActionHandlerEvent,
   handleAction,
   LovelaceCardEditor,
@@ -12,10 +12,10 @@ import {
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
 
 import type { BoilerplateCardConfig } from './types';
-import { actionHandler } from './action-handler-directive';
+//import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
-//import { HassEntity } from "home-assistant-js-websocket";
+import { HassEntity } from "home-assistant-js-websocket";
 
 
 /* eslint no-console: 0 */
@@ -48,7 +48,7 @@ export class CrowdsourcererCard extends LitElement {
   // https://lit.dev/docs/components/properties/
   @property({ attribute: false }) public hass!: HomeAssistant;
 
-  //@property() public stateObj!: HassEntity;
+  @property() public stateObj!: HassEntity | null;
 
   @property({ type: Boolean }) public inDialog = false;
 
@@ -86,7 +86,20 @@ export class CrowdsourcererCard extends LitElement {
 
   // https://lit.dev/docs/components/rendering/
   protected render(): TemplateResult | void {
-    // TODO Check for stateObj or other necessary things and render a warning if missing
+
+    this.stateObj = this.config.entity && this.config.entity in this.hass.states ? this.hass.states[this.config.entity] : null;
+
+    if (this.stateObj == null) {
+      return html`
+        <ha-card
+        .header=${this.config.name}
+        >
+          <p>Entity not found!</p>
+        </ha-card>
+      `
+    }
+    
+
     if (this.config.show_warning) {
       return this._showWarning(localize('common.show_warning'));
     }
@@ -114,7 +127,9 @@ export class CrowdsourcererCard extends LitElement {
         .header=${this.config.name}
       >
         <div class="card-content">
-          <p>${this.config.entity}</p>
+          <p>${this.stateObj}</p>
+          <p>${this.stateObj.state}</p>
+          <p>${this.stateObj.attributes}</p>
           <div>${this.getPage()}</div>
         </div>
       </ha-card>
@@ -277,6 +292,7 @@ export class CrowdsourcererCard extends LitElement {
       }
 
       .nav-btn-list > .nav-btn {
+        box-sizing: border-box;
         width: 100%;
         margin-bottom: 8px;
       }
