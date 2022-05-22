@@ -70,7 +70,7 @@ export class CrowdsourcererCard extends LitElement {
 
     this.config = {
       name: 'Crowdsourcerer Data Collector',
-      //entity: 'sensor.home',
+      entity: 'sensor.crowdsourcerer',
       ...config,
     };
   }
@@ -94,7 +94,9 @@ export class CrowdsourcererCard extends LitElement {
         <ha-card
         .header=${this.config.name}
         >
-          <p>Entity not found!</p>
+          <div class="view-content">
+            <p>Entity not found!</p>
+          </div>
         </ha-card>
       `
     }
@@ -127,9 +129,6 @@ export class CrowdsourcererCard extends LitElement {
         .header=${this.config.name}
       >
         <div class="card-content">
-          <p>${this.stateObj}</p>
-          <p>${this.stateObj.state}</p>
-          <p>${this.stateObj.attributes}</p>
           <div>${this.getPage()}</div>
         </div>
       </ha-card>
@@ -143,81 +142,79 @@ export class CrowdsourcererCard extends LitElement {
       case "main":
         return html`
           <div class="view-content">
-            <h2>Main screen</h2>
+            <h3>${this.stateObj?.state === "Collecting" ? localize('main_screen.collection_status_enabled') : localize('main_screen.collection_status_disabled')}</h3>
 
-              <h3>Data collection is [enabled/disabled]</h3>
+            <div class="stat-list">
+              <p class="stat-label">${localize('main_screen.last_sent_size')}</p>
+              <p class="stat-value">${this.stateObj?.attributes["last_sent_size"] + "MB"}</p>
 
-              <div class="stat-list">
-                <p class="stat-label">Size of last sent package:</p>
-                <p class="stat-value">OOOO</p>
+              <p class="stat-label">${localize('main_screen.total_sent_size')}</p>
+              <p class="stat-value">${this.stateObj?.attributes["total_sent_size"] + "MB"}</p>
 
-                <p class="stat-label">Total size of sent packages:</p>
-                <p class="stat-value">OOOO</p>
+              <br style="margin-bottom: 16px;"/>
 
-                <br style="margin-bottom: 16px;"/>
+              <p class="stat-label">${localize('main_screen.last_sent_date')}</p>
+              <p class="stat-value">${this.stateObj?.attributes["last_sent_date"]}</p>
 
-                <p class="stat-label">Date of last sent package:</p>
-                <p class="stat-value">YYYY/MM/DD</p>
+              <p class="stat-label">${localize('main_screen.first_sent_date')}</p>
+              <p class="stat-value">${this.stateObj?.attributes["first_sent_date"]}</p>
+            </div>
 
-                <p class="stat-label">Sending data since:</p>
-                <p class="stat-value">YYYY/MM/DD</p>
-              </div>
-
-              <div class="nav-btn-list">
-                <a class="nav-btn" @click=${() => this.setRoute("collection")}>Collection Settings</a>
-                <a class="nav-btn" @click=${() => this.setRoute("data")}>Manage Data</a>
-                <a class="nav-btn" @click=${() => this.setRoute("terms")}>Terms and Conditions</a>
-              </div>
+            <div class="nav-btn-list">
+              <!-- <a class="nav-btn" @click=${() => this.setRoute("collection")}>Collection Settings</a> -->
+              <a class="nav-btn" @click=${() => this.setRoute("data")}>${localize('routes.data')}</a>
+              <a class="nav-btn" @click=${() => this.setRoute("terms")}>${localize('routes.terms')}</a>
+            </div>
           </div>
         `
       case "data":
         return html`
           <div class="view-content">
-            <h2>Manage Data</h2>
+            <h2>${localize('data_screen.header')}</h2>
 
-            <h3>Your unique ID is:</h3>
-            <h2>OOOO-OOOO-OOOO-OOOO</h2>
-            <h3>Keep this ID in a safe place, if the Crowdsourcerer integration is uninstalled it is the only way we can delete your data if requested</h3>
+            <h3>${localize('data_screen.id_header')}</h3>
+            <h2>${this.stateObj?.attributes["uuid"]}</h2>
+            <h3>${localize('data_screen.body')}</h3>
 
             <div class="nav-btn-list">
-              <a class="nav-btn" @click=${() => this.setRoute("main")}>Back</a>
-              <a class="nav-btn" @click=${() => this.setRoute("delete")}>Delete Data</a>
+              <a class="nav-btn" @click=${() => this.setRoute("main")}>${localize('routes.back')}</a>
+              <a class="nav-btn" @click=${() => this.setRoute("delete")}>${localize('routes.delete')}</a>
             </div>
           </div>
         `
       case "delete":
         return html`
           <div class="view-content">
-            <h2>Delete Data</h2>
+            <h2>${localize('delete_screen.header')}</h2>
 
-            <h3>You may request to have all previously sent data deleted from our storage.</h3>
-            <h3>Proceed?</h3>
+            <h3>${localize('delete_screen.body')}</h3>
+            <h3>${localize('delete_screen.prompt')}</h3>
 
             <div class="nav-btn-list">
-              <a class="nav-btn delete-data-btn" >Yes, delete my data</a>
-              <a class="nav-btn" @click=${() => this.setRoute("data")}>Cancel</a>
+              <a class="nav-btn delete-data-btn" >${localize('routes.delete_confirm')}</a>
+              <a class="nav-btn" @click=${() => this.setRoute("data")}>${localize('routes.cancel')}</a>
             </div>
           </div>
         `
       case "terms":
         return html`
           <div class="view-content">
-            <h2>Terms and Conditions</h2>
+            <h2>${localize('terms_screen.header')}</h2>
 
-            <h3>By using the Crowdsourcerer integration and allowing data collection, you consent to the following terms and conditions:</h3>
+            <h3>${localize('terms_screen.body')}</h3>
 
             <p>...</p>
 
             <div class="nav-btn-list">
-              <a class="nav-btn" @click=${() => this.setRoute("main")}>Back</a>
+              <a class="nav-btn" @click=${() => this.setRoute("main")}>${localize('routes.back')}</a>
             </div>
           </div>
         `
       default:
         return html`
           <div>
-            <h2>Something went wrong...</h2>
-            <a class="nav-btn" @click=${() => this.setRoute("main")}>Return to main screen</a>
+            <h2>${localize('error_screen.message')}</h2>
+            <a class="nav-btn" @click=${() => this.setRoute("main")}>${localize('routes.return_to_main')}</a>
           </div>
         `
     }
@@ -257,6 +254,7 @@ export class CrowdsourcererCard extends LitElement {
         align-content: center;
         flex-direction: column;
         text-align: center;
+        min-height: 350px;
       }
 
       .stat-list {
