@@ -50,7 +50,7 @@ export class CrowdsourcererCard extends LitElement {
 
   @property() public stateObj!: HassEntity | null;
 
-  @property({ type: Boolean }) public inDialog = false;
+  //@property({ type: Boolean }) public inDialog = false;
 
   @property({ type: String }) public route = "main";
 
@@ -172,9 +172,14 @@ export class CrowdsourcererCard extends LitElement {
           <div class="view-content">
             <h2>${localize('data_screen.header')}</h2>
 
-            <h3>${localize('data_screen.id_header')}</h3>
-            <h2>${this.stateObj?.attributes["uuid"]}</h2>
-            <h3>${localize('data_screen.body')}</h3>
+            <div class="scroll-container">
+              <h2>${localize('data_screen.id_header')}</h2>
+              <h2>${this.stateObj?.attributes["uuid"]}</h2>
+              <h3>${localize('data_screen.body')}</h3>
+
+              <h2>Last sent data:</h2>
+              <div>${this.getSentDataTemplate(Object.entries(this.stateObj?.attributes["last_sent_data"]))}</div>
+            </div>
 
             <div class="nav-btn-list">
               <a class="nav-btn" @click=${() => this.setRoute("main")}>${localize('routes.back')}</a>
@@ -201,9 +206,35 @@ export class CrowdsourcererCard extends LitElement {
           <div class="view-content">
             <h2>${localize('terms_screen.header')}</h2>
 
-            <h3>${localize('terms_screen.body')}</h3>
+            <!-- <h3>${localize('terms_screen.body')}</h3> -->
 
-            <p>...</p>
+            <div class="scroll-container">
+              <h3>What is being collected and sent?</h3>
+              <p class="terms-text">
+                  All the sensor categories that you have authorized in the configuration are collected through Home Assistant's built-in 'History' integration, 
+                  then are put through a clean-up process that ommits any sensitive information that might be present, such as names and addresses, before being sent.
+                  You can see the exact data being sent in the 'Manage Data' menu.
+              </p>
+
+              <h3>Where is my data sent to, and how is it used?</h3>
+              <p class="terms-text">
+                  Data is sent to an API in ......, to be stored in a Data Lake. The goal of our collection is to assemble a dataset of smart home usage data to be
+                  used in future research, which researchers will be able to export from the Data Lake.
+                  Internally, data is associated to a unique ID given to you, with the sole purpose of deleting it if requested. This ID will not be accessible by
+                  other users and cannot be traced back to you.
+              </p>
+
+              <h3>How can I have my data deleted?</h3>
+              <p class="terms-text">
+                  You can request to have your data deleted from the 'Manage Data' menu. Alternatively, you can contact our Data Protection Officer, although please
+                  note that you will need to provide your unique ID. It is then of the utmost importance that you keep this ID in a safe place, in the event that you
+                  uninstall the Crowdsourcerer integration or lose your ID somehow. You can see your unique ID in the 'Manage Data' menu.
+              </p>
+
+              <h3>Contacts:</h3>
+              <p class="terms-text">Data Protection Officer: Diogo Gomes - dgomes@ua.pt</p>
+            </div>
+
 
             <div class="nav-btn-list">
               <a class="nav-btn" @click=${() => this.setRoute("main")}>${localize('routes.back')}</a>
@@ -218,6 +249,36 @@ export class CrowdsourcererCard extends LitElement {
           </div>
         `
     }
+  }
+
+  private getSentDataTemplate(data): TemplateResult {
+    if (data == null || !data)
+      return html`
+        <p>No data was found</p>
+      `
+    
+    return html`
+      <div class="sent-data-view">
+        ${data.map((entry)=>
+          html`
+            <h4>${entry[0]}:</h4>
+            ${console.log(entry[1])}
+            <div>${Object.entries(entry[1][0]).map((sensor_entry) =>
+              sensor_entry[1] instanceof Object ?
+              html`
+                ${Object.entries(sensor_entry[1]).map((property_entry) =>
+                  html`<p>${property_entry[0]}: ${property_entry[1]}</p>`
+                )}
+              `
+              :
+              html`
+                <p>${sensor_entry[0]}: ${sensor_entry[1]}</p>
+              `
+            )}</div>
+          `
+        )}
+      </div>
+    `
   }
 
 
@@ -254,7 +315,7 @@ export class CrowdsourcererCard extends LitElement {
         align-content: center;
         flex-direction: column;
         text-align: center;
-        min-height: 350px;
+        height: 350px;
       }
 
       .stat-list {
@@ -301,6 +362,16 @@ export class CrowdsourcererCard extends LitElement {
 
       .nav-btn.delete-data-btn:hover {
         background-color: red;
+      }
+
+      .terms-text {
+        text-align: left;
+      }
+
+      .scroll-container {
+        overflow-y: scroll;
+        overflow-wrap: break-word;
+        margin-bottom: 8px;
       }
     `;
   }

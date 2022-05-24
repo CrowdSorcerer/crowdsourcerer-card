@@ -34,6 +34,46 @@
             </div>
         </div>
 
+        <div class="card">
+            <div class="view-content scroll-container">
+                <h2>${localize('terms_screen.header')}</h2>
+
+                <div class="scroll-container">
+                    <h3>${localize('terms_screen.body')}</h3>
+
+                    <p>...</p>
+
+
+                    <h3>What is being collected and sent?</h3>
+                    <p class="terms-text">
+                        All the sensor categories that you have authorized in the configuration are collected through Home Assistant's built-in 'History' integration, 
+                        then are put through a clean-up process that ommits any sensitive information that might be present, such as names and addresses, before being sent.
+                        You can see the exact data being sent in the 'Manage Data' menu.
+                    </p>
+
+                    <h3>Where is my data sent to, and how is it used?</h3>
+                    <p class="terms-text">
+                        Data is sent to an API in ......, to be stored in a Data Lake. The goal of our collection is to assemble a dataset of smart home usage data to be
+                        used in future research, which researchers will be able to export from the Data Lake.
+                        Internally, data is associated to a unique ID given to you, with the sole purpose of deleting it if requested. This ID will not be accessible by
+                        other users and cannot be traced back to you.
+                    </p>
+
+                    <h3>How can I have my data deleted?</h3>
+                    <p class="terms-text">
+                        You can request to have your data deleted from the 'Manage Data' menu. Alternatively, you can contact our Data Protection Officer, although please
+                        note that you will need to provide your unique ID. It is then of the utmost importance that you keep this ID in a safe place, in the event that you
+                        uninstall the Crowdsourcerer integration or lose your ID somehow. You can see your unique ID in the 'Manage Data' menu.
+                    </p>
+                </div>
+
+
+                <div class="nav-btn-list">
+                    <a class="nav-btn">${localize('routes.back')}</a>
+                </div>
+            </div>
+        </div>
+
 
 
         <style>
@@ -60,7 +100,11 @@
                 align-content: center;
                 flex-direction: column;
                 text-align: center;
-                min-height: 350px;
+                height: 350px;
+            }
+
+            .terms-text {
+                text-align: left;
             }
 
             .stat-list {
@@ -102,6 +146,12 @@
 
             .nav-btn:hover {
                 background-color: var(--primary-color);
+            }
+
+            .scroll-container {
+                overflow-y: scroll;
+                overflow-wrap: break-word;
+                margin-bottom: 8px;
             }
         </style>
     </body>
