@@ -26,9 +26,7 @@ While editing the dashboard, click the 3 dots once more and select "Manage Resou
 
 ### Step 5
 
-Add each file you copied from `/dist` as a module, using URLs in the following format: `/local/<filename>`
-
-For example, to add `crowdsourcerer-card.js`, use the URL `/local/crowdsourcerer-card.js`
+Add `crowdsourcerer-card.js` as a module, using the URL `/local/crowdsourcerer-card.js`
 
 A HA reboot may be needed for changes to take effect
 
@@ -41,5 +39,4 @@ If the card does not show up, click the 3 dots in the dashboard editor, then "Ra
 Then, add the following under the "cards:" tag and save
 ```yaml
 - type: custom:crowdsourcerer-card
-        entity: sensor.home
 ```

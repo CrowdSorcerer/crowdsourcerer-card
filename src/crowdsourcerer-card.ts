@@ -4,9 +4,6 @@ import { customElement, property, state } from 'lit/decorators';
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
-  //hasAction,
-  ActionHandlerEvent,
-  handleAction,
   LovelaceCardEditor,
   getLovelace,
 } from 'custom-card-helpers';
@@ -189,7 +186,7 @@ export class CrowdsourcererCard extends LitElement {
             <h3>${localize('delete_screen.prompt')}</h3>
 
             <div class="nav-btn-list">
-              <a class="nav-btn delete-data-btn" >${localize('routes.delete_confirm')}</a>
+              <a class="nav-btn delete-data-btn" @click=${this.deleteData} >${localize('routes.delete_confirm')}</a>
               <a class="nav-btn" @click=${() => this.setRoute("data")}>${localize('routes.cancel')}</a>
             </div>
           </div>
@@ -210,7 +207,7 @@ export class CrowdsourcererCard extends LitElement {
 
               <h3>Where is my data sent to, and how is it used?</h3>
               <p class="terms-text">
-                  Data is sent to an API in ......, to be stored in a Data Lake. The goal of our collection is to assemble a dataset of smart home usage data to be
+                  Data is sent to an API in University of Aveiro's Instituto de Telecomunicações, to be stored in a Data Lake. The goal of our collection is to assemble a dataset of smart home usage data to be
                   used in future research, which researchers will be able to export from the Data Lake.
                   Internally, data is associated to a unique ID given to you, with the sole purpose of deleting it if requested. This ID will not be accessible by
                   other users and cannot be traced back to you.
@@ -233,6 +230,30 @@ export class CrowdsourcererCard extends LitElement {
             </div>
           </div>
         `
+        case "delete_success":
+          return html`
+          <div class="view-content">
+            <h2>${localize('delete_screen.header')}</h2>
+
+            <p>Your data has been deleted</p>
+            <p>Keep in mind that data will continue to be sent in the future, as long as the Crowdsourcerer integration remains installed</p>
+
+            <a class="nav-btn" @click=${() => this.setRoute("main")}>${localize('routes.return_to_main')}</a>
+          </div>
+        `
+        case "delete_failure":
+          return html`
+          <div class="view-content">
+            <h2>${localize('delete_screen.header')}</h2>
+
+            <p>Uh oh, something went wrong...</p>
+            <p>Your request could not be completed, please try again later, or contact our Data Protection Officer if the problem persists.</p>
+            <br />
+            <p>Data Protection Officer: Diogo Gomes - dgomes@ua.pt</p>
+
+            <a class="nav-btn" @click=${() => this.setRoute("main")}>${localize('routes.return_to_main')}</a>
+          </div>
+        `
       default:
         return html`
           <div>
@@ -248,10 +269,27 @@ export class CrowdsourcererCard extends LitElement {
     this.route = route;
   }
 
-  private _handleAction(ev: ActionHandlerEvent): void {
-    if (this.hass && this.config && ev.detail.action) {
-      handleAction(this, this.hass, this.config, ev.detail.action);
-    }
+  private deleteData(): void {
+    const API_URL = "http://smarthouse.av.it.pt/api/ingest/data";
+
+    fetch(API_URL, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Home-UUID": this.stateObj?.attributes["uuid"],
+        "Access-Control-Allow-Origin": API_URL,
+        //"Origin": 
+      }
+    })
+    .then(resp => {
+      if (resp.ok)
+        this.setRoute("delete_success")
+      else
+        this.setRoute("delete_failure")
+    })
+    .catch(()=> {
+      this.setRoute("delete_failure")
+    })
   }
 
   private _showWarning(warning: string): TemplateResult {
