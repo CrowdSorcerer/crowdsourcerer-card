@@ -1,0 +1,42 @@
+{
+  "common": {
+    "version": "Versão",
+    "invalid_configuration": "Configuração inválida",
+    "show_warning": "Mostrar Aviso",
+    "show_error": "Mostrar Erro"
+  },
+  "routes": {
+    "back": "Voltar",
+    "data": "Gerir Dados",
+    "terms": "Termos e Condições",
+    "delete": "Apagar Dados",
+    "cancel": "Cancelar",
+    "delete_confirm": "Sim, apagar os meus dados",
+    "return_to_main": "Voltar ao ecrã principal"
+  },
+  "main_screen": {
+    "collection_status_enabled": "Coleção de dados está ativa",
+    "collection_status_disabled": "Coleção de dados está desativada",
+    "last_sent_size": "Tamanho do último envio:",
+    "total_sent_size": "Tamanho total dos envios:",
+    "last_sent_date": "Data do último envio:",
+    "first_sent_date": "A enviar dados desde:"
+  },
+  "data_screen": {
+    "header": "Gerir Dados",
+    "id_header": "O seu ID único é:",
+    "body": "Guarde este ID num sítio seguro, se a integração Crowdsourcerer for desinstalada será a única forma de apagar os seus dados"
+  },
+  "delete_screen": {
+    "header": "Apagar Dados",
+    "body": "Pode pedir para apagar todos os dados previamente enviados do nosso armazenamento.",
+    "prompt": "Avançar?"
+  },
+  "terms_screen": {
+    "header": "Termos e Condições",
+    "body": "By using the Crowdsourcerer integration and allowing data collection, you consent to the following terms and conditions:"
+  },
+  "error_screen": {
+    "message": "Algo correu mal..."
+  }
+}

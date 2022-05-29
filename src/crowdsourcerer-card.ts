@@ -9,10 +9,9 @@ import {
   handleAction,
   LovelaceCardEditor,
   getLovelace,
-} from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types. https://github.com/custom-cards/custom-card-helpers
+} from 'custom-card-helpers';
 
 import type { BoilerplateCardConfig } from './types';
-//import { actionHandler } from './action-handler-directive';
 import { CARD_VERSION } from './const';
 import { localize } from './localize/localize';
 import { HassEntity } from "home-assistant-js-websocket";
@@ -25,12 +24,11 @@ console.info(
   'color: white; font-weight: bold; background: dimgray',
 );
 
-// This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type: 'crowdsourcerer-card',
   name: 'Crowdsourcerer Card',
-  description: 'Custom card for Crowdsourcerer integration that enables finer control over data collection',
+  description: 'Custom card for Crowdsourcerer integration that enables data management',
 });
 
 @customElement('crowdsourcerer-card')
@@ -44,22 +42,16 @@ export class CrowdsourcererCard extends LitElement {
     return {};
   }
 
-  // TODO Add any properities that should cause your element to re-render here
-  // https://lit.dev/docs/components/properties/
   @property({ attribute: false }) public hass!: HomeAssistant;
 
   @property() public stateObj!: HassEntity | null;
-
-  //@property({ type: Boolean }) public inDialog = false;
 
   @property({ type: String }) public route = "main";
 
   @state() private config!: BoilerplateCardConfig;
 
 
-  // https://lit.dev/docs/components/properties/#accessors-custom
   public setConfig(config: BoilerplateCardConfig): void {
-    // TODO Check for required fields and that they are of the proper format
     if (!config) {
       throw new Error(localize('common.invalid_configuration'));
     }
@@ -75,7 +67,6 @@ export class CrowdsourcererCard extends LitElement {
     };
   }
 
-  // https://lit.dev/docs/components/lifecycle/#reactive-update-cycle-performing
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) {
       return false;
@@ -84,7 +75,6 @@ export class CrowdsourcererCard extends LitElement {
     return hasConfigOrEntityChanged(this, changedProps, false);
   }
 
-  // https://lit.dev/docs/components/rendering/
   protected render(): TemplateResult | void {
 
     this.stateObj = this.config.entity && this.config.entity in this.hass.states ? this.hass.states[this.config.entity] : null;
@@ -109,20 +99,6 @@ export class CrowdsourcererCard extends LitElement {
     if (this.config.show_error) {
       return this._showError(localize('common.show_error'));
     }
-
-    //return html`
-    //  <ha-card
-    //    .header=${this.config.name}
-    //    @action=${this._handleAction}
-    //    .actionHandler=${actionHandler({
-    //      hasHold: hasAction(this.config.hold_action),
-    //      hasDoubleClick: hasAction(this.config.double_tap_action),
-    //    })}
-    //    tabindex="0"
-    //    .label=${`Boilerplate: ${this.config.entity || 'No Entity Defined'}`}
-    //  >
-    //  </ha-card>
-    //`;
 
     return html`
       <ha-card
@@ -161,7 +137,6 @@ export class CrowdsourcererCard extends LitElement {
             </div>
 
             <div class="nav-btn-list">
-              <!-- <a class="nav-btn" @click=${() => this.setRoute("collection")}>Collection Settings</a> -->
               <a class="nav-btn" @click=${() => this.setRoute("data")}>${localize('routes.data')}</a>
               <a class="nav-btn" @click=${() => this.setRoute("terms")}>${localize('routes.terms')}</a>
             </div>
@@ -178,7 +153,25 @@ export class CrowdsourcererCard extends LitElement {
               <h3>${localize('data_screen.body')}</h3>
 
               <h2>Last sent data:</h2>
-              <div>${this.getSentDataTemplate(Object.entries(this.stateObj?.attributes["last_sent_data"]))}</div>
+              ${
+                this.stateObj?.attributes["last_sent_data"]
+                ?
+                html`
+                  <p>You can view the exact data sent by downloading it as a JSON file</p>
+                  <a
+                    class="download-btn"
+                    href=${"data:text/plain;charset=utf-8," + encodeURIComponent(this.stateObj?.attributes["last_sent_data"])}
+                    download="last_sent_data.json"
+                  >
+                    Download Data
+                  </a>
+                `
+                :
+                html`
+                  <p>No sent data was found. Have you just installed Crowdsourcerer? If so, nothing may have been sent yet</p>
+                `
+              }
+              
             </div>
 
             <div class="nav-btn-list">
@@ -206,14 +199,13 @@ export class CrowdsourcererCard extends LitElement {
           <div class="view-content">
             <h2>${localize('terms_screen.header')}</h2>
 
-            <!-- <h3>${localize('terms_screen.body')}</h3> -->
-
             <div class="scroll-container">
               <h3>What is being collected and sent?</h3>
               <p class="terms-text">
                   All the sensor categories that you have authorized in the configuration are collected through Home Assistant's built-in 'History' integration, 
                   then are put through a clean-up process that ommits any sensitive information that might be present, such as names and addresses, before being sent.
-                  You can see the exact data being sent in the 'Manage Data' menu.
+                  You can see the exact data being sent in the 'Manage Data' menu, and reconfigure what sensor types are collected in the Crowdsourcerer integration configuration
+                  through Home Assistant's integration settings.
               </p>
 
               <h3>Where is my data sent to, and how is it used?</h3>
@@ -251,36 +243,6 @@ export class CrowdsourcererCard extends LitElement {
     }
   }
 
-  private getSentDataTemplate(data): TemplateResult {
-    if (data == null || !data)
-      return html`
-        <p>No data was found</p>
-      `
-    
-    return html`
-      <div class="sent-data-view">
-        ${data.map((entry)=>
-          html`
-            <h4>${entry[0]}:</h4>
-            ${console.log(entry[1])}
-            <div>${Object.entries(entry[1][0]).map((sensor_entry) =>
-              sensor_entry[1] instanceof Object ?
-              html`
-                ${Object.entries(sensor_entry[1]).map((property_entry) =>
-                  html`<p>${property_entry[0]}: ${property_entry[1]}</p>`
-                )}
-              `
-              :
-              html`
-                <p>${sensor_entry[0]}: ${sensor_entry[1]}</p>
-              `
-            )}</div>
-          `
-        )}
-      </div>
-    `
-  }
-
 
   private setRoute(route: string): void {
     this.route = route;
@@ -307,7 +269,6 @@ export class CrowdsourcererCard extends LitElement {
     return html` ${errorCard} `;
   }
 
-  // https://lit.dev/docs/components/styles/
   static get styles(): CSSResultGroup {
     return css`
       .view-content {
@@ -344,6 +305,18 @@ export class CrowdsourcererCard extends LitElement {
       .nav-btn {
         padding: 8px 12px;
         border: 1px solid var(--primary-text-color);
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        display: inline-block;
+      }
+
+      .download-btn {
+        padding: 8px 12px;
+        border: 1px solid var(--primary-color);
+        background-color: var(--primary-color);
+        color: var(--primary-text-color);
+        text-decoration: none;
         border-radius: 4px;
         cursor: pointer;
         text-align: center;
