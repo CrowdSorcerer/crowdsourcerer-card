@@ -230,6 +230,15 @@ export class CrowdsourcererCard extends LitElement {
             </div>
           </div>
         `
+        case "delete_processing":
+          return html`
+          <div class="view-content">
+            <h2>${localize('delete_screen.header')}</h2>
+
+            <p>Processing delete request</p>
+            <p>Please wait a moment...</p>
+          </div>
+        `
         case "delete_success":
           return html`
           <div class="view-content">
@@ -270,7 +279,9 @@ export class CrowdsourcererCard extends LitElement {
   }
 
   private deleteData(): void {
-    const API_URL = "http://smarthouse.av.it.pt/api/ingest/data";
+    const API_URL = "https://smarthouse.av.it.pt/api/ingest/data";
+
+    this.setRoute("delete_processing")
 
     fetch(API_URL, {
       method: "DELETE",
