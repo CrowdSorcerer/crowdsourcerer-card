@@ -4,7 +4,26 @@ A custom card for Home Assistant for use with the Crowdsourcerer integration
 
 Based on [@iantrich](https://www.github.com/iantrich)'s boilerplate card
 
-## Instaling on Home Assistant Manually 
+## Installing Through HACS
+
+This assumes that you have HACS installed and configured on your HA installation. See [here](https://hacs.xyz/) for more information.
+
+### Step 1
+
+[Add this repository as a Custom Repository in HACS](https://hacs.xyz/docs/faq/custom_repositories), in the Lovelace/Frontend category
+
+### Step 2
+
+[Download the "Crowdsourcerer Card" repository](https://hacs.xyz/docs/navigation/stores) in the Frontend tab.
+
+### Step 3
+
+You can now add the card to a dashboard of your choice, when adding a new card it should be available as "Custom: Crowdsourcerer Card".
+
+If the card does not show up in the card list, try restarting HA and clearing the browser cache.
+
+
+## Installing on Home Assistant Manually 
 
 ### Step 1
 
@@ -35,7 +54,7 @@ A HA reboot may be needed for changes to take effect
 You can now add the card to the dashboard. Back in the dashboard editor, click "ADD CARD".
 The new card should show up in the list as "Custom: Crowdsourcerer Card".
 
-If the card does not show up, click the 3 dots in the dashboard editor, then "Raw configuration editor".
+If the card does not show up, try clearing the browser cache, or click the 3 dots in the dashboard editor, then "Raw configuration editor".
 Then, add the following under the "cards:" tag and save
 ```yaml
 - type: custom:crowdsourcerer-card
