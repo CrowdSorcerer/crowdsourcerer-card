@@ -82,7 +82,7 @@ export class CrowdsourcererCard extends LitElement {
         .header=${this.config.name}
         >
           <div class="view-content">
-            <p>Entity not found!</p>
+            <p>Crowdsourcerer entity not found! Have you installed the Crowdsourcerer integration?</p>
           </div>
         </ha-card>
       `
