@@ -46,7 +46,7 @@ const nt=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */;var ct;const dt=null!=(null===(ct=window.HTMLSlotElement)||void 0===ct?void 0:ct.prototype.assignedElements)?(t,e)=>t.assignedElements(e):(t,e)=>t.assignedNodes(e).filter((t=>t.nodeType===Node.ELEMENT_NODE));function ht(t){const{slot:e,selector:s}=null!=t?t:{};return lt({descriptor:i=>({get(){var i;const n="slot"+(e?`[name=${e}]`:":not([name])"),o=null===(i=this.renderRoot)||void 0===i?void 0:i.querySelector(n),r=null!=o?dt(o,t):[];return s?r.filter((t=>t.matches(s))):r},enumerable:!0,configurable:!0})})}var ut,pt;!function(t){t.language="language",t.system="system",t.comma_decimal="comma_decimal",t.decimal_comma="decimal_comma",t.space_comma="space_comma",t.none="none"}(ut||(ut={})),function(t){t.language="language",t.system="system",t.am_pm="12",t.twenty_four="24"}(pt||(pt={}));var vt=function(t,e,s,i){i=i||{},s=null==s?{}:s;var n=new Event(e,{bubbles:void 0===i.bubbles||i.bubbles,cancelable:Boolean(i.cancelable),composed:void 0===i.composed||i.composed});return n.detail=s,t.dispatchEvent(n),n};var _t={version:"Version",invalid_configuration:"Invalid configuration",show_warning:"Show Warning",show_error:"Show Error"},mt={back:"Back",data:"Manage Data",terms:"Terms and Conditions",delete:"Delete Data",cancel:"Cancel",delete_confirm:"Yes, delete my data",return_to_main:"Return to main screen"},gt={collection_status_enabled:"Data collection is enabled",collection_status_idle:"Data collection is on standby",collection_status_disabled:"Data collection is disabled",last_sent_size:"Size of last sent package:",total_sent_size:"Total size of sent packages:",last_sent_date:"Date of last sent package:",first_sent_date:"Sending data since:"},ft={header:"Manage Data",id_header:"Your unique ID is:",body:"Keep this ID in a safe place, if the Crowdsourcerer integration is uninstalled it is the only way we can delete your data if requested"},$t={header:"Delete Data",body:"You may request to have all previously sent data deleted from our storage.",prompt:"Proceed?"},yt={header:"Terms and Conditions",body:"By using the Crowdsourcerer integration and allowing data collection, you consent to the following terms and conditions:"},bt={message:"Something went wrong..."},wt={common:_t,routes:mt,main_screen:gt,data_screen:ft,delete_screen:$t,terms_screen:yt,error_screen:bt},At={version:"Versjon",invalid_configuration:"Ikke gyldig konfiguration",show_warning:"Vis advarsel"},Et={common:At};const Ct={en:Object.freeze({__proto__:null,common:_t,routes:mt,main_screen:gt,data_screen:ft,delete_screen:$t,terms_screen:yt,error_screen:bt,default:wt}),nb:Object.freeze({__proto__:null,common:At,default:Et})};function St(t,e="",s=""){const i=(localStorage.getItem("selectedLanguage")||"en").replace(/['"]+/g,"").replace("-","_");let n;try{n=t.split(".").reduce(((t,e)=>t[e]),Ct[i])}catch(e){n=t.split(".").reduce(((t,e)=>t[e]),Ct.en)}return void 0===n&&(n=t.split(".").reduce(((t,e)=>t[e]),Ct.en)),""!==e&&""!==s&&(n=n.replace(e,s)),n}console.info(`%c  CROWDSOURCERER-CARD \n%c  ${St("common.version")} 1.0.0    `,"color: orange; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray"),window.customCards=window.customCards||[],window.customCards.push({type:"crowdsourcerer-card",name:"Crowdsourcerer Card",description:"Custom card for Crowdsourcerer integration that enables data management"});let xt=class extends st{constructor(){super(...arguments),this.route="main"}static async getConfigElement(){return await import("./editor-24968073.js"),document.createElement("boilerplate-card-editor")}static getStubConfig(){return{}}setConfig(t){if(!t)throw new Error(St("common.invalid_configuration"));t.test_gui&&function(){var t=document.querySelector("home-assistant");if(t=(t=(t=(t=(t=(t=(t=(t=t&&t.shadowRoot)&&t.querySelector("home-assistant-main"))&&t.shadowRoot)&&t.querySelector("app-drawer-layout partial-panel-resolver"))&&t.shadowRoot||t)&&t.querySelector("ha-panel-lovelace"))&&t.shadowRoot)&&t.querySelector("hui-root")){var e=t.lovelace;return e.current_view=t.___curView,e}return null}().setEditMode(!0),this.config=Object.assign({name:"Crowdsourcerer Data Collector",entity:"sensor.crowdsourcerer"},t)}shouldUpdate(t){return!!this.config&&function(t,e,s){if(e.has("config")||s)return!0;if(t.config.entity){var i=e.get("hass");return!i||i.states[t.config.entity]!==t.hass.states[t.config.entity]}return!1}(this,t,!1)}render(){return this.stateObj=this.config.entity&&this.config.entity in this.hass.states?this.hass.states[this.config.entity]:null,null==this.stateObj?M`
+ */;var ct;const dt=null!=(null===(ct=window.HTMLSlotElement)||void 0===ct?void 0:ct.prototype.assignedElements)?(t,e)=>t.assignedElements(e):(t,e)=>t.assignedNodes(e).filter((t=>t.nodeType===Node.ELEMENT_NODE));function ht(t){const{slot:e,selector:s}=null!=t?t:{};return lt({descriptor:i=>({get(){var i;const n="slot"+(e?`[name=${e}]`:":not([name])"),o=null===(i=this.renderRoot)||void 0===i?void 0:i.querySelector(n),r=null!=o?dt(o,t):[];return s?r.filter((t=>t.matches(s))):r},enumerable:!0,configurable:!0})})}var ut,pt;!function(t){t.language="language",t.system="system",t.comma_decimal="comma_decimal",t.decimal_comma="decimal_comma",t.space_comma="space_comma",t.none="none"}(ut||(ut={})),function(t){t.language="language",t.system="system",t.am_pm="12",t.twenty_four="24"}(pt||(pt={}));var vt=function(t,e,s,i){i=i||{},s=null==s?{}:s;var n=new Event(e,{bubbles:void 0===i.bubbles||i.bubbles,cancelable:Boolean(i.cancelable),composed:void 0===i.composed||i.composed});return n.detail=s,t.dispatchEvent(n),n};var _t={version:"Version",invalid_configuration:"Invalid configuration",show_warning:"Show Warning",show_error:"Show Error"},mt={back:"Back",data:"Manage Data",terms:"Terms and Conditions",delete:"Delete Data",cancel:"Cancel",delete_confirm:"Yes, delete my data",return_to_main:"Return to main screen"},gt={collection_status_enabled:"Data collection is enabled",collection_status_idle:"Data collection is on standby",collection_status_disabled:"Data collection is disabled",last_sent_size:"Size of last sent package:",total_sent_size:"Total size of sent packages:",last_sent_date:"Date of last sent package:",first_sent_date:"Sending data since:"},ft={header:"Manage Data",id_header:"Your unique ID is:",body:"Keep this ID in a safe place, if the Crowdsourcerer integration is uninstalled it is the only way we can delete your data if requested"},$t={header:"Delete Data",body:"You may request to have all previously sent data deleted from our storage.",prompt:"Proceed?"},yt={header:"Terms and Conditions",body:"By using the Crowdsourcerer integration and allowing data collection, you consent to the following terms and conditions:"},bt={message:"Something went wrong..."},wt={common:_t,routes:mt,main_screen:gt,data_screen:ft,delete_screen:$t,terms_screen:yt,error_screen:bt},At={version:"Versjon",invalid_configuration:"Ikke gyldig konfiguration",show_warning:"Vis advarsel"},Et={common:At};const Ct={en:Object.freeze({__proto__:null,common:_t,routes:mt,main_screen:gt,data_screen:ft,delete_screen:$t,terms_screen:yt,error_screen:bt,default:wt}),nb:Object.freeze({__proto__:null,common:At,default:Et})};function St(t,e="",s=""){const i=(localStorage.getItem("selectedLanguage")||"en").replace(/['"]+/g,"").replace("-","_");let n;try{n=t.split(".").reduce(((t,e)=>t[e]),Ct[i])}catch(e){n=t.split(".").reduce(((t,e)=>t[e]),Ct.en)}return void 0===n&&(n=t.split(".").reduce(((t,e)=>t[e]),Ct.en)),""!==e&&""!==s&&(n=n.replace(e,s)),n}console.info(`%c  CROWDSOURCERER-CARD \n%c  ${St("common.version")} 1.0.0    `,"color: orange; font-weight: bold; background: black","color: white; font-weight: bold; background: dimgray"),window.customCards=window.customCards||[],window.customCards.push({type:"crowdsourcerer-card",name:"Crowdsourcerer Card",description:"Custom card for Crowdsourcerer integration that enables data management"});let xt=class extends st{constructor(){super(...arguments),this.route="main"}static async getConfigElement(){return await import("./editor-39b3247f.js"),document.createElement("boilerplate-card-editor")}static getStubConfig(){return{}}setConfig(t){if(!t)throw new Error(St("common.invalid_configuration"));t.test_gui&&function(){var t=document.querySelector("home-assistant");if(t=(t=(t=(t=(t=(t=(t=(t=t&&t.shadowRoot)&&t.querySelector("home-assistant-main"))&&t.shadowRoot)&&t.querySelector("app-drawer-layout partial-panel-resolver"))&&t.shadowRoot||t)&&t.querySelector("ha-panel-lovelace"))&&t.shadowRoot)&&t.querySelector("hui-root")){var e=t.lovelace;return e.current_view=t.___curView,e}return null}().setEditMode(!0),this.config=Object.assign({name:"Crowdsourcerer Data Collector",entity:"sensor.crowdsourcerer"},t)}shouldUpdate(t){return!!this.config&&function(t,e,s){if(e.has("config")||s)return!0;if(t.config.entity){var i=e.get("hass");return!i||i.states[t.config.entity]!==t.hass.states[t.config.entity]}return!1}(this,t,!1)}render(){return this.stateObj=this.config.entity&&this.config.entity in this.hass.states?this.hass.states[this.config.entity]:null,null==this.stateObj?M`
         <ha-card
         .header=${this.config.name}
         >
@@ -62,29 +62,29 @@ const nt=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
           <div>${this.getPage()}</div>
         </div>
       </ha-card>
-    `}getPage(){var t,e,s,i,n,o,r,a,l,c;switch(this.route){case"main":return M`
+    `}getPage(){var t,e,s,i,n,o,r,a,l,c,d;switch(this.route){case"main":return M`
           <div class="view-content">
 
-            ${null==this.stateObj?M`<h2>No data has been sent yet. Please check back later!</h2>`:M`
-                <h3>${"Collecting"===(null===(t=this.stateObj)||void 0===t?void 0:t.state)?St("main_screen.collection_status_enabled"):"Idle"===(null===(e=this.stateObj)||void 0===e?void 0:e.state)?St("main_screen.collection_status_idle"):St("main_screen.collection_status_disabled")}
+            ${(null===(t=this.stateObj)||void 0===t?void 0:t.attributes.last_sent_data)?M`
+                <h3>${"Collecting"===(null===(e=this.stateObj)||void 0===e?void 0:e.state)?St("main_screen.collection_status_enabled"):"Idle"===(null===(s=this.stateObj)||void 0===s?void 0:s.state)?St("main_screen.collection_status_idle"):St("main_screen.collection_status_disabled")}
                 </h3>
 
                 <div class="stat-list">
                   <p class="stat-label">${St("main_screen.last_sent_size")}</p>
-                  <p class="stat-value">${(null===(s=this.stateObj)||void 0===s?void 0:s.attributes.last_sent_size)+"MB"}</p>
+                  <p class="stat-value">${(null===(i=this.stateObj)||void 0===i?void 0:i.attributes.last_sent_size)+"MB"}</p>
 
                   <p class="stat-label">${St("main_screen.total_sent_size")}</p>
-                  <p class="stat-value">${(null===(i=this.stateObj)||void 0===i?void 0:i.attributes.total_sent_size)+"MB"}</p>
+                  <p class="stat-value">${(null===(n=this.stateObj)||void 0===n?void 0:n.attributes.total_sent_size)+"MB"}</p>
 
                   <br style="margin-bottom: 16px;"/>
 
                   <p class="stat-label">${St("main_screen.last_sent_date")}</p>
-                  <p class="stat-value">${null===(n=this.stateObj)||void 0===n?void 0:n.attributes.last_sent_date}</p>
+                  <p class="stat-value">${null===(o=this.stateObj)||void 0===o?void 0:o.attributes.last_sent_date}</p>
 
                   <p class="stat-label">${St("main_screen.first_sent_date")}</p>
-                  <p class="stat-value">${null===(o=this.stateObj)||void 0===o?void 0:o.attributes.first_sent_date}</p>
+                  <p class="stat-value">${null===(r=this.stateObj)||void 0===r?void 0:r.attributes.first_sent_date}</p>
                 </div>
-              `}
+              `:M`<h2>No data has been sent yet. Please check back later!</h2>`}
 
             <div class="nav-btn-list">
               <a class="nav-btn" @click=${()=>this.setRoute("data")}>${St("routes.data")}</a>
@@ -97,9 +97,9 @@ const nt=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
 
             <div class="scroll-container">
 
-              ${(null===(r=this.stateObj)||void 0===r?void 0:r.attributes.uuid)?M`
+              ${(null===(a=this.stateObj)||void 0===a?void 0:a.attributes.uuid)?M`
                   <h2>${St("data_screen.id_header")}</h2>
-                  <h2>${null===(a=this.stateObj)||void 0===a?void 0:a.attributes.uuid}</h2>
+                  <h2>${null===(l=this.stateObj)||void 0===l?void 0:l.attributes.uuid}</h2>
                   <h3>${St("data_screen.body")}</h3>
                 `:M`
                   <h2>Your UUID will be generated after sending data for the first time. Please check back later!</h2>
@@ -108,11 +108,11 @@ const nt=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
               
 
               <h2>Last sent data:</h2>
-              ${(null===(l=this.stateObj)||void 0===l?void 0:l.attributes.last_sent_data)?M`
+              ${(null===(c=this.stateObj)||void 0===c?void 0:c.attributes.last_sent_data)?M`
                   <p>You can view the exact data sent by downloading it as a JSON file</p>
                   <a
                     class="download-btn"
-                    href=${"data:text/plain;charset=utf-8,"+encodeURIComponent(null===(c=this.stateObj)||void 0===c?void 0:c.attributes.last_sent_data)}
+                    href=${"data:text/plain;charset=utf-8,"+encodeURIComponent(null===(d=this.stateObj)||void 0===d?void 0:d.attributes.last_sent_data)}
                     download="last_sent_data.json"
                   >
                     Download Data

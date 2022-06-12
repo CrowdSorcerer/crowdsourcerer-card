@@ -117,9 +117,7 @@ export class CrowdsourcererCard extends LitElement {
           <div class="view-content">
 
             ${
-              this.stateObj == null ?
-              html`<h2>No data has been sent yet. Please check back later!</h2>`
-              :
+              this.stateObj?.attributes["last_sent_data"] ?
               html`
                 <h3>${
                   this.stateObj?.state === "Collecting"
@@ -146,6 +144,8 @@ export class CrowdsourcererCard extends LitElement {
                   <p class="stat-value">${this.stateObj?.attributes["first_sent_date"]}</p>
                 </div>
               `
+              :
+              html`<h2>No data has been sent yet. Please check back later!</h2>`
             }
 
             <div class="nav-btn-list">
@@ -213,7 +213,7 @@ export class CrowdsourcererCard extends LitElement {
             <h3>${localize('delete_screen.prompt')}</h3>
 
             <div class="nav-btn-list">
-              <a class="nav-btn delete-data-btn" @click=${this.deleteData} >${localize('routes.delete_confirm')}</a>
+              <a class="nav-btn delete-data-btn" @click=${this.deleteData}>${localize('routes.delete_confirm')}</a>
               <a class="nav-btn" @click=${() => this.setRoute("data")}>${localize('routes.cancel')}</a>
             </div>
           </div>
