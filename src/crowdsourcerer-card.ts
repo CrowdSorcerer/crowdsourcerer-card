@@ -115,23 +115,38 @@ export class CrowdsourcererCard extends LitElement {
       case "main":
         return html`
           <div class="view-content">
-            <h3>${this.stateObj?.state === "Collecting" ? localize('main_screen.collection_status_enabled') : localize('main_screen.collection_status_disabled')}</h3>
 
-            <div class="stat-list">
-              <p class="stat-label">${localize('main_screen.last_sent_size')}</p>
-              <p class="stat-value">${this.stateObj?.attributes["last_sent_size"] + "MB"}</p>
+            ${
+              this.stateObj == null ?
+              html`<h2>No data has been sent yet. Please check back later!</h2>`
+              :
+              html`
+                <h3>${
+                  this.stateObj?.state === "Collecting"
+                  ? localize('main_screen.collection_status_enabled')
+                  : this.stateObj?.state === "Idle" ?
+                  localize('main_screen.collection_status_idle')
+                  :
+                  localize('main_screen.collection_status_disabled')}
+                </h3>
 
-              <p class="stat-label">${localize('main_screen.total_sent_size')}</p>
-              <p class="stat-value">${this.stateObj?.attributes["total_sent_size"] + "MB"}</p>
+                <div class="stat-list">
+                  <p class="stat-label">${localize('main_screen.last_sent_size')}</p>
+                  <p class="stat-value">${this.stateObj?.attributes["last_sent_size"] + "MB"}</p>
 
-              <br style="margin-bottom: 16px;"/>
+                  <p class="stat-label">${localize('main_screen.total_sent_size')}</p>
+                  <p class="stat-value">${this.stateObj?.attributes["total_sent_size"] + "MB"}</p>
 
-              <p class="stat-label">${localize('main_screen.last_sent_date')}</p>
-              <p class="stat-value">${this.stateObj?.attributes["last_sent_date"]}</p>
+                  <br style="margin-bottom: 16px;"/>
 
-              <p class="stat-label">${localize('main_screen.first_sent_date')}</p>
-              <p class="stat-value">${this.stateObj?.attributes["first_sent_date"]}</p>
-            </div>
+                  <p class="stat-label">${localize('main_screen.last_sent_date')}</p>
+                  <p class="stat-value">${this.stateObj?.attributes["last_sent_date"]}</p>
+
+                  <p class="stat-label">${localize('main_screen.first_sent_date')}</p>
+                  <p class="stat-value">${this.stateObj?.attributes["first_sent_date"]}</p>
+                </div>
+              `
+            }
 
             <div class="nav-btn-list">
               <a class="nav-btn" @click=${() => this.setRoute("data")}>${localize('routes.data')}</a>
@@ -145,9 +160,21 @@ export class CrowdsourcererCard extends LitElement {
             <h2>${localize('data_screen.header')}</h2>
 
             <div class="scroll-container">
-              <h2>${localize('data_screen.id_header')}</h2>
-              <h2>${this.stateObj?.attributes["uuid"]}</h2>
-              <h3>${localize('data_screen.body')}</h3>
+
+              ${
+                this.stateObj?.attributes["uuid"] ?
+                html`
+                  <h2>${localize('data_screen.id_header')}</h2>
+                  <h2>${this.stateObj?.attributes["uuid"]}</h2>
+                  <h3>${localize('data_screen.body')}</h3>
+                `
+                :
+                html`
+                  <h2>Your UUID will be generated after sending data for the first time. Please check back later!</h2>
+                `
+              }
+
+              
 
               <h2>Last sent data:</h2>
               ${

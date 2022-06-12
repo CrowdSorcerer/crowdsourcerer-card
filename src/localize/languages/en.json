@@ -16,6 +16,7 @@
   },
   "main_screen": {
     "collection_status_enabled": "Data collection is enabled",
+    "collection_status_idle": "Data collection is on standby",
     "collection_status_disabled": "Data collection is disabled",
     "last_sent_size": "Size of last sent package:",
     "total_sent_size": "Total size of sent packages:",
